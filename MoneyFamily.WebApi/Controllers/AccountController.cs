@@ -30,7 +30,7 @@ namespace MoneyFamily.WebApi.Controllers
                 }
         };
         [HttpPost]
-        public IActionResult GetToken(UserLogins userLogins)
+        public IActionResult GetToken(UserLogins userLogins) 
         {
             try
             {
@@ -39,13 +39,7 @@ namespace MoneyFamily.WebApi.Controllers
                 if (Valid)
                 {
                     var user = logins.FirstOrDefault(x => x.UserName.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
-                    Token = JwtHelpers.GenTokenkey(new UserTokens()
-                    {
-                        EmailId = user.EmailId,
-                        GuidId = Guid.NewGuid(),
-                        UserName = user.UserName,
-                        Id = user.Id,
-                    }, jwtSettings);
+                    Token = JwtHelpers.GenTokenkey(jwtSettings);
                 }
                 else
                 {

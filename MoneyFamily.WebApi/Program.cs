@@ -1,3 +1,4 @@
+using MoneyFamily.WebApi;
 using MoneyFamily.WebApi.AuthTest.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +54,9 @@ builder.Services.AddCors(options =>
             .WithOrigins(new string[] { "http://localhost:8080" })
         );
 });
+
+//DI
+StartupDependencyInjections.SetUp(builder);
 
 var app = builder.Build();
 
