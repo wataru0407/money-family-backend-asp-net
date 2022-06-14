@@ -4,8 +4,7 @@ using MoneyFamily.WebApi.Presentation.Secutiry;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// builder.Services.AddJWTTokenServices(builder.Configuration);
-JwtTokenExtension.AddJwtServices(builder);
+JwtConfigurationExtensions.AddJwtServices(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

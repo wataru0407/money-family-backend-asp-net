@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
-    public static class JwtTokenExtension
+    public static class JwtConfigurationExtensions
     {
         public static void AddJwtServices(WebApplicationBuilder builder)
         {
