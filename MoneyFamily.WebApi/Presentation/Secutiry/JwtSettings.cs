@@ -1,12 +1,8 @@
-﻿namespace MoneyFamily.WebApi.AuthTest.Models
+﻿namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
     public class JwtSettings
     {
-        public bool ValidateIssuerSigningKey
-        {
-            get;
-            set;
-        }
+        public bool ValidateIssuerSigningKey { get; set; }
         public string IssuerSigningKey { get; set; }
         public bool ValidateIssuer { get; set; } = true;
         public string ValidIssuer { get; set; }

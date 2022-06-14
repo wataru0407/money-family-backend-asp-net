@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using MoneyFamily.WebApi.AuthTest.Models;
 
 namespace MoneyFamily.WebApi.Presentation.Secutiry
 {

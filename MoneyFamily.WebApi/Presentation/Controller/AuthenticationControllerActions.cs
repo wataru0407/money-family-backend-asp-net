@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyFamily.WebApi.Application.Service;
-using MoneyFamily.WebApi.AuthTest.JwtHelpers;
-using MoneyFamily.WebApi.AuthTest.Models;
 using MoneyFamily.WebApi.Controllers;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Presentation.Secutiry;
@@ -12,21 +10,6 @@ namespace MoneyFamily.WebApi.Presentation.Controller
     {
         private readonly AuthenticationAppricationService authService;
         private readonly JwtSettings jwtSettings;
-
-        private IEnumerable<Users> logins = new List<Users>() {
-            new Users() {
-                    Id = Guid.NewGuid(),
-                        EmailId = "admin@gmail.com",
-                        UserName = "admin",
-                        Password = "admin",
-                },
-                new Users() {
-                    Id = Guid.NewGuid(),
-                        EmailId = "test@gmail.com",
-                        UserName = "test",
-                        Password = "test",
-                }
-        };
 
         public AuthenticationControllerActions(AuthenticationAppricationService authService, JwtSettings jwtSettings)
         {

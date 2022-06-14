@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using MoneyFamily.WebApi.AuthTest.Models;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

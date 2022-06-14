@@ -1,11 +1,11 @@
 using MoneyFamily.WebApi;
-using MoneyFamily.WebApi.AuthTest.Extensions;
+using MoneyFamily.WebApi.Presentation.Secutiry;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // builder.Services.AddJWTTokenServices(builder.Configuration);
-AddJWTTokenServicesExtensions.AddJWTTokenServices(builder);
+JwtTokenExtension.AddJwtServices(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -56,7 +56,7 @@ builder.Services.AddCors(options =>
 });
 
 //DI
-StartupDependencyInjections.SetUp(builder);
+DependencyInjectionExtenstions.AddDependencyInjection(builder);
 
 var app = builder.Build();
 

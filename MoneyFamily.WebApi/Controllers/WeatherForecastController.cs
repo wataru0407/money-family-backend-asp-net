@@ -21,7 +21,7 @@ namespace MoneyFamily.WebApi.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

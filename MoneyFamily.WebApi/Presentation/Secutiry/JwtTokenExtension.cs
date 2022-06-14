@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using MoneyFamily.WebApi.AuthTest.Models;
 
-namespace MoneyFamily.WebApi.AuthTest.Extensions
+namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
-    public static class AddJWTTokenServicesExtensions
+    public static class JwtTokenExtension
     {
-        public static void AddJWTTokenServices(WebApplicationBuilder builder)
+        public static void AddJwtServices(WebApplicationBuilder builder)
         {
             // Add Jwt Setings
             var bindJwtSettings = new JwtSettings();
@@ -20,7 +19,7 @@ namespace MoneyFamily.WebApi.AuthTest.Extensions
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = bindJwtSettings.ValidateIssuerSigningKey,
                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(bindJwtSettings.IssuerSigningKey)),
@@ -30,7 +29,7 @@ namespace MoneyFamily.WebApi.AuthTest.Extensions
                     ValidAudience = bindJwtSettings.ValidAudience,
                     RequireExpirationTime = bindJwtSettings.RequireExpirationTime,
                     ValidateLifetime = bindJwtSettings.ValidateLifetime,
-                    ClockSkew = TimeSpan.Zero,  
+                    ClockSkew = TimeSpan.Zero,
                 };
             });
         }
