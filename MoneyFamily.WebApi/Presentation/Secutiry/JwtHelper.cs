@@ -19,7 +19,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
         };
         }
 
-        public static string GenToken(UserId id, JwtSettings jwtSettings)
+        public static string GenToken(UserId id, JwtSetting jwtSettings)
         {
             try
             {

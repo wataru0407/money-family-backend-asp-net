@@ -9,12 +9,12 @@ namespace MoneyFamily.WebApi.Presentation.Controller
     public class AuthenticationControllerActions : ControllerBase, IAuthenticationController
     {
         private readonly AuthenticationAppricationService authService;
-        private readonly JwtSettings jwtSettings;
+        private readonly JwtSetting jwtSetting;
 
-        public AuthenticationControllerActions(AuthenticationAppricationService authService, JwtSettings jwtSettings)
+        public AuthenticationControllerActions(AuthenticationAppricationService authService, JwtSetting jwtSetting)
         {
             this.authService = authService;
-            this.jwtSettings = jwtSettings;
+            this.jwtSetting = jwtSetting;
         }
 
         Task<ActionResult<UserResponse>> IAuthenticationController.CreateUserAsync(UserRequest body)
@@ -32,33 +32,9 @@ namespace MoneyFamily.WebApi.Presentation.Controller
                 return BadRequest($"wrong password");
             }
 
-            var token = JwtHelper.GenToken(authrizedUser.Id, jwtSettings);
-            var response = new LoginResponse() { Token = token};
+            var token = JwtHelper.GenToken(authrizedUser.Id, jwtSetting);
+            var response = new LoginResponse() { Token = token };
             return Ok(response);
-
-            //try
-            //{
-            //    //var Token = new UserTokens();
-            //    var response = new LoginResponse();
-            //    var Valid = logins.Any(x => x.EmailId.Equals(body.Email, StringComparison.OrdinalIgnoreCase));
-            //    if (Valid)
-            //    {
-            //        var user = logins.FirstOrDefault(x => x.EmailId.Equals(body.Email, StringComparison.OrdinalIgnoreCase));
-            //        var token = JwtHelpers.GenTokenkey(jwtSettings).Token;
-            //        response.Token = token;
-
-            //    }
-            //    else
-            //    {
-            //        return BadRequest($"wrong password");
-            //    }
-            //    return response;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
-            //throw new NotImplementedException();
         }
 
         Task<ActionResult<LoginResponse>> IAuthenticationController.PasswordResetAsync(LoginRequest body)

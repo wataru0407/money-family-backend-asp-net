@@ -1,6 +1,6 @@
 ﻿namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
-    public class JwtSettings
+    public class JwtSetting
     {
         public bool ValidateIssuerSigningKey { get; set; }
         public string IssuerSigningKey { get; set; }

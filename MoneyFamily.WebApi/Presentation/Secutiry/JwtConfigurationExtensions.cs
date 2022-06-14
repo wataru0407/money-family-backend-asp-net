@@ -8,7 +8,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
         public static void AddJwtServices(WebApplicationBuilder builder)
         {
             // Add Jwt Setings
-            var bindJwtSettings = new JwtSettings();
+            var bindJwtSettings = new JwtSetting();
             builder.Configuration.Bind("JwtSettings", bindJwtSettings);
             builder.Services.AddSingleton(bindJwtSettings);
             builder.Services.AddAuthentication(options =>
