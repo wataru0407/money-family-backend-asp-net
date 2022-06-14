@@ -6,16 +6,18 @@ namespace MoneyFamily.WebApi.AuthTest.Extensions
 {
     public static class AddJWTTokenServicesExtensions
     {
-        public static void AddJWTTokenServices(IServiceCollection Services, IConfiguration Configuration)
+        public static void AddJWTTokenServices(WebApplicationBuilder builder)
         {
             // Add Jwt Setings
             var bindJwtSettings = new JwtSettings();
-            Configuration.Bind("JsonWebTokenKeys", bindJwtSettings);
-            Services.AddSingleton(bindJwtSettings);
-            Services.AddAuthentication(options => {
+            builder.Configuration.Bind("JwtSettings", bindJwtSettings);
+            builder.Services.AddSingleton(bindJwtSettings);
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -27,8 +29,8 @@ namespace MoneyFamily.WebApi.AuthTest.Extensions
                     ValidateAudience = bindJwtSettings.ValidateAudience,
                     ValidAudience = bindJwtSettings.ValidAudience,
                     RequireExpirationTime = bindJwtSettings.RequireExpirationTime,
-                    ValidateLifetime = bindJwtSettings.RequireExpirationTime,
-                    ClockSkew = TimeSpan.FromDays(1),
+                    ValidateLifetime = bindJwtSettings.ValidateLifetime,
+                    ClockSkew = TimeSpan.Zero,  
                 };
             });
         }

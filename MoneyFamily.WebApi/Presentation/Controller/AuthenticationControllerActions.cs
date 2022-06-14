@@ -46,7 +46,7 @@ namespace MoneyFamily.WebApi.Presentation.Controller
             var authrizedUser = await authService.Login(email, password);
             if (authrizedUser == null)
             {
-                BadRequest($"wrong password");
+                return BadRequest($"wrong password");
             }
 
             var token = JwtHelper.GenToken(authrizedUser.Id, jwtSettings);

@@ -25,10 +25,9 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
             try
             {
                 var key = Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
-                Guid Id = Guid.Empty;
                 DateTime nowTime = DateTime.UtcNow;
-                DateTime expireTime = DateTime.UtcNow.AddDays(1);
-                var securityToken = new JwtSecurityToken(
+                DateTime expireTime = DateTime.UtcNow.AddDays(7);
+                var jwt = new JwtSecurityToken(
                     issuer: jwtSettings.ValidIssuer,
                     audience: jwtSettings.ValidAudience,
                     claims: GetClaims(id),
@@ -36,7 +35,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
                     expires: expireTime,
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
                     );
-                var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+                var token = new JwtSecurityTokenHandler().WriteToken(jwt);
                 return token;
             }
             catch (Exception)

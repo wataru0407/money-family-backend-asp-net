@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoneyFamily.WebApi.AuthTest.JwtHelpers;
 using MoneyFamily.WebApi.AuthTest.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MoneyFamily.WebApi.Controllers
 {
@@ -60,6 +62,8 @@ namespace MoneyFamily.WebApi.Controllers
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetList()
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var uid = identity.Claims.ElementAt(0).Value;
             return Ok(logins);
         }
     }
