@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MoneyFamily.WebApi;
+using MoneyFamily.WebApi.Infrastructure;
 using MoneyFamily.WebApi.Presentation.Secutiry;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,6 +58,17 @@ builder.Services.AddCors(options =>
 
 //DI
 DependencyInjectionExtenstions.AddDependencyInjection(builder);
+
+
+//DbContext
+builder.Services.AddDbContext<MoneyFamilyContext>(option =>
+{
+    option.UseNpgsql(builder.Configuration.GetConnectionString("MoneyFamilyContext"));
+});
+//builder.Services.AddMvc().AddJsonOptions(options =>
+//{
+//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+//});
 
 var app = builder.Build();
 
