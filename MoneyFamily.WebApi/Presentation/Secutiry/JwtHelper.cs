@@ -8,7 +8,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
     public class JwtHelper
     {
-        private static IEnumerable<Claim> GetClaims(UserId id)
+        private static IEnumerable<Claim> GetClaims(Guid id)
         {
             var now = new DateTimeOffset(DateTime.UtcNow);
             return new Claim[]
@@ -19,7 +19,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
         };
         }
 
-        public static string GenToken(UserId id, JwtSetting jwtSettings)
+        public static string GenToken(Guid id, JwtSetting jwtSettings)
         {
             try
             {

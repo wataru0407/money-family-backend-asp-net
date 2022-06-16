@@ -1,4 +1,7 @@
-﻿namespace MoneyFamily.WebApi.Domain.Models.Users
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Text;
+
+namespace MoneyFamily.WebApi.Domain.Models.Users
 {
     public class User
     {
@@ -13,6 +16,11 @@
             EmailAddress email,
             Password password)
         {
+            if (id is null) throw new ArgumentNullException(nameof(id));
+            if (name is null) throw new ArgumentNullException(nameof(name));
+            if (email is null) throw new ArgumentNullException(nameof(email));
+            if (password is null) throw new ArgumentNullException(nameof(password));
+
             Id = id;
             Name = name;
             Email = email;
@@ -31,7 +39,7 @@
                 password);
         }
 
-        public static User CreateFromRepository(
+        public static User CreateInstance(
             UserId userId,
             UserName name,
             EmailAddress email,
@@ -59,6 +67,18 @@
             Password = password;
         }
 
+        //public string HashPassword()
+        //{
+        //    var solt = Encoding.UTF8.GetBytes(Name.Value);
+        //    var hash = KeyDerivation.Pbkdf2(
+        //        Password.Value,
+        //        solt,
+        //        prf: KeyDerivationPrf.HMACSHA256,
+        //        iterationCount: 10000,
+        //        numBytesRequested: 256 / 8
+        //        );
+        //    return Convert.ToBase64String(hash);
+        //}
 
     }
 }

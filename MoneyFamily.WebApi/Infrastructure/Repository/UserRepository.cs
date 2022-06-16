@@ -1,5 +1,7 @@
-﻿using MoneyFamily.WebApi.Domain.Models.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
+using MoneyFamily.WebApi.Infrastructure.Models;
 
 namespace MoneyFamily.WebApi.Infrastructure.Repository
 {
@@ -12,52 +14,72 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             this.moneyFamilyContext = moneyFamilyContext;
         }
 
-        public async Task<User?> FindByEmail(EmailAddress email)
+        public async Task<HashUser?> FindByEmail(EmailAddress email)
         {
-            var test = moneyFamilyContext.Users;
-            var emailad = email.Value;
-            var result = moneyFamilyContext.Users.FirstOrDefault(x => x.EmailAddress.Equals(email.Value));
+            //var test = moneyFamilyContext.Users;
+            //var emailad = email.Value;
+            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.EmailAddress.Equals(email.Value));
             if (result == null) return null;
-            var model = User.CreateFromRepository(
-                    new UserId(result.UserId),
-                    new UserName(result.UserName),
-                    new EmailAddress(result.EmailAddress),
-                    new Password(result.Password)
-                );
-
-            return model;
+            return ToDomainModel(result);
 
             // 仮生成
-            return User.CreateFromRepository(
-                new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
-                new UserName("admin"),
-                new EmailAddress("admin@gmail.com"),
-                new Password("admin1234")
-                );
+            //return User.CreateFromRepository(
+            //    new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
+            //    new UserName("admin"),
+            //    new EmailAddress("admin@gmail.com"),
+            //    new Password("admin1234")
+            //    );
             //throw new NotImplementedException();
         }
 
-        public async Task<User?> FindById(UserId id)
+        public async Task<HashUser?> FindById(UserId id)
+        {
+            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.UserId.Equals(id.Value));
+            if (result == null) return null;
+            return ToDomainModel(result);
+
+            // 仮生成
+            //return User.CreateInstance(
+            //    new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
+            //    new UserName("admin"),
+            //    new EmailAddress("admin@gmail.com"),
+            //    new Password("admin")
+            //    );
+            //throw new NotImplementedException();
+        }
+
+        public async Task Save(HashUser user)
         {
 
-            // 仮生成
-            return User.CreateFromRepository(
-                new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
-                new UserName("admin"),
-                new EmailAddress("admin@gmail.com"),
-                new Password("admin")
-                );
+            moneyFamilyContext.Add(ToDto(user));
+            await moneyFamilyContext.SaveChangesAsync();
             //throw new NotImplementedException();
         }
 
-        Task IUserRepository.Save(User user)
+        public async Task Update(HashUser user)
         {
             throw new NotImplementedException();
         }
 
-        Task IUserRepository.Update(User user)
+        private static UserDto ToDto(HashUser user)
         {
-            throw new NotImplementedException();
+            return new UserDto()
+            {
+                UserId = user.Id.Value,
+                UserName = user.Name.Value,
+                EmailAddress = user.Email.Value,
+                Password = user.Password.Value
+            };
+        }
+
+        private static HashUser ToDomainModel(UserDto dto)
+        {
+            return new HashUser(
+                new UserId(dto.UserId),
+                new UserName(dto.UserName),
+                new EmailAddress(dto.EmailAddress),
+                new HashPassword(dto.Password)
+                );
         }
     }
 }

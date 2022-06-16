@@ -1,5 +1,7 @@
-﻿using MoneyFamily.WebApi.Domain.Models.Users;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
+using System.Text;
 
 namespace MoneyFamily.WebApi.Domain.Service
 {
@@ -18,5 +20,26 @@ namespace MoneyFamily.WebApi.Domain.Service
             return found != null;
         }
 
+        public HashUser CreateHashUser(User user)
+        {
+            return new HashUser(
+                user.Id,
+                user.Name,
+                user.Email,
+                CreateHashPassword(user.Email, user.Password)
+                );
+        }
+        public HashPassword CreateHashPassword(EmailAddress email, Password password)
+        {
+            var solt = Encoding.UTF8.GetBytes(email.Value);
+            var hash = KeyDerivation.Pbkdf2(
+                password.Value,
+                solt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8
+                );
+            return new HashPassword(Convert.ToBase64String(hash));
+        }
     }
 }

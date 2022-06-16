@@ -29,7 +29,5 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
             }
             return false;
         }
-
-
     }
 }
