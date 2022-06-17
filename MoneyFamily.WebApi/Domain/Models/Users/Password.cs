@@ -4,6 +4,8 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
 {
     public record Password
     {
+        public static readonly Password Empty = new Password(string.Empty);
+
         public const int MinPasswordLength = 8;
         public const int MaxPasswordLength = 32;
         public string Value { get; }

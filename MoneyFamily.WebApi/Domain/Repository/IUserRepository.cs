@@ -4,9 +4,9 @@ namespace MoneyFamily.WebApi.Domain.Repository
 {
     public interface IUserRepository
     {
-        Task Save(HashUser user);
-        Task Update(HashUser user);
-        Task<HashUser?> FindById(UserId id);
-        Task<HashUser?> FindByEmail(EmailAddress email);
+        Task Save(User user);
+        Task Update(User user);
+        Task<User?> FindById(UserId id);
+        Task<User?> FindByEmail(EmailAddress email);
     }
 }

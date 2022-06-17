@@ -10,11 +10,13 @@ namespace MoneyFamily.WebApi.Application.Service
     {
         private readonly IUserRepository userRepository;
         private readonly UserService userService;
+        private readonly IUserFactory userFactory;
 
-        public UserAppricationService(IUserRepository userRepository, UserService userService)
+        public UserAppricationService(IUserRepository userRepository, UserService userService, IUserFactory userFactory)
         {
             this.userRepository = userRepository;
             this.userService = userService;
+            this.userFactory = userFactory;
         }
 
         public async Task<UserLoginResult> Login(UserLoginCommand command)
@@ -24,8 +26,12 @@ namespace MoneyFamily.WebApi.Application.Service
             if (found == null) throw new CustomNotFoundException($"ユーザが見つかりません。メールアドレス：{command.Email}");
 
             var password = new Password(command.Password);
-            var hashPassword = userService.CreateHashPassword(email, password);
-            if (hashPassword.Value != found.Password.Value) throw new CustomCanNotLoginException($"パスワードが一致しません。");
+            //var hashPassword = userService.CreateHashPassword(email, password);
+            //if (hashPassword.Value != found.Password.Value) throw new CustomCanNotLoginException($"パスワードが一致しません。");
+
+            var loginUser = new User(found.Id, found.Name, email, password);
+            var isMatchPassword = loginUser.HashPassword == found.HashPassword;
+            if (!isMatchPassword) throw new CustomCanNotLoginException("パスワードが一致しません。");
 
             return new UserLoginResult(found.Id.Value);
         }
@@ -34,7 +40,7 @@ namespace MoneyFamily.WebApi.Application.Service
         {
             using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
-            var user = User.CreateNew(
+            var user = userFactory.CreateNew(
                 new UserName(command.Name),
                 new EmailAddress(command.Email),
                 new Password(command.Password)
@@ -43,15 +49,14 @@ namespace MoneyFamily.WebApi.Application.Service
             var exists = await userService.Exists(user);
             if (exists) throw new CustomDuplicateException($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}");
 
-            var hashUser = userService.CreateHashUser(user);
-            await userRepository.Save(hashUser);
+            await userRepository.Save(user);
 
             transaction.Complete();
 
             return new UserCreateResult(
-                hashUser.Id.Value,
-                hashUser.Name.Value,
-                hashUser.Email.Value
+                user.Id.Value,
+                user.Name.Value,
+                user.Email.Value
                 );
         }
 

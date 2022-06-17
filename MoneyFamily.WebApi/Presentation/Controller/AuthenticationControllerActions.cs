@@ -68,23 +68,5 @@ namespace MoneyFamily.WebApi.Presentation.Controller
             throw new NotImplementedException();
         }
 
-        private User ToNewDomainModel(UserRequest request)
-        {
-            return Domain.Models.Users.User.CreateNew(
-                new UserName(request.Name),
-                new EmailAddress(request.Email),
-                new Password(request.Password));
-        }
-
-        private UserResponse ToApiModel(User user)
-        {
-            return new UserResponse()
-            {
-                Id = user.Id.Value,
-                Name = user.Name.Value,
-                Email = user.Email.Value
-            };
-        }
-
     }
 }

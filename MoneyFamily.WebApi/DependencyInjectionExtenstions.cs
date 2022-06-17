@@ -1,5 +1,6 @@
 ﻿using MoneyFamily.WebApi.Application.Service;
 using MoneyFamily.WebApi.Controllers;
+using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
 using MoneyFamily.WebApi.Domain.Service;
 using MoneyFamily.WebApi.Infrastructure.Repository;
@@ -16,6 +17,7 @@ namespace MoneyFamily.WebApi
                 .AddTransient<UserAppricationService>()
                 .AddTransient<UserService>()
                 .AddTransient<IUserRepository, UserRepository>()
+                .AddTransient<IUserFactory, UserFactory>()
                 ;
             return builder;
         }

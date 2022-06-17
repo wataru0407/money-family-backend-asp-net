@@ -8,13 +8,15 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
     public class UserRepository : IUserRepository
     {
         private readonly MoneyFamilyContext moneyFamilyContext;
+        private readonly IUserFactory userFactory;
 
-        public UserRepository(MoneyFamilyContext moneyFamilyContext)
+        public UserRepository(MoneyFamilyContext moneyFamilyContext, IUserFactory userFactory)
         {
             this.moneyFamilyContext = moneyFamilyContext;
+            this.userFactory = userFactory;
         }
 
-        public async Task<HashUser?> FindByEmail(EmailAddress email)
+        public async Task<User?> FindByEmail(EmailAddress email)
         {
             //var test = moneyFamilyContext.Users;
             //var emailad = email.Value;
@@ -32,7 +34,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             //throw new NotImplementedException();
         }
 
-        public async Task<HashUser?> FindById(UserId id)
+        public async Task<User?> FindById(UserId id)
         {
             var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.UserId.Equals(id.Value));
             if (result == null) return null;
@@ -48,7 +50,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             //throw new NotImplementedException();
         }
 
-        public async Task Save(HashUser user)
+        public async Task Save(User user)
         {
 
             moneyFamilyContext.Add(ToDto(user));
@@ -56,30 +58,30 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             //throw new NotImplementedException();
         }
 
-        public async Task Update(HashUser user)
+        public async Task Update(User user)
         {
             moneyFamilyContext.Entry(ToDto(user)).State = EntityState.Modified;
             //throw new NotImplementedException();
         }
 
-        private static UserDto ToDto(HashUser user)
+        private static UserDto ToDto(User user)
         {
             return new UserDto()
             {
                 UserId = user.Id.Value,
                 UserName = user.Name.Value,
                 EmailAddress = user.Email.Value,
-                Password = user.Password.Value
+                Password = user.HashPassword
             };
         }
 
-        private static HashUser ToDomainModel(UserDto dto)
+        private User ToDomainModel(UserDto dto)
         {
-            return new HashUser(
+            return userFactory.CreateFromRepository(
                 new UserId(dto.UserId),
                 new UserName(dto.UserName),
                 new EmailAddress(dto.EmailAddress),
-                new HashPassword(dto.Password)
+                dto.Password
                 );
         }
     }
