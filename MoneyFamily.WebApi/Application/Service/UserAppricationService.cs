@@ -2,7 +2,6 @@
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
 using MoneyFamily.WebApi.Domain.Service;
-using System.Data;
 using System.Transactions;
 
 namespace MoneyFamily.WebApi.Application.Service
@@ -54,6 +53,38 @@ namespace MoneyFamily.WebApi.Application.Service
                 hashUser.Name.Value,
                 hashUser.Email.Value
                 );
+        }
+
+        public async Task<UserGetResult> Get(UserGetCommand command)
+        {
+            var id = new UserId(command.Id);
+            var user = await userRepository.FindById(id);
+            if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
+
+            return new UserGetResult(user.Id.Value, user.Name.Value, user.Email.Value);
+        }
+
+        public async Task<UserUpdateResult> Update(UserUpdateCommand command)
+        {
+            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
+            var id = new UserId(command.Id);
+            var hashUser = userRepository.FindById(id);
+            if (hashUser == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
+
+            //var user = User.CreateInstance(
+            //    id,
+            //    new UserName(command.Name),
+            //    new EmailAddress(command.Email)
+            //    new Password();
+
+            if (command.Name is not null)
+            {
+                var name = new UserName(command.Name);
+                //hashUser.Change();
+            }
+            return null;
+
         }
     }
 }

@@ -70,6 +70,9 @@ builder.Services.AddDbContext<MoneyFamilyContext>(option =>
 //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 //});
 
+//solt
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

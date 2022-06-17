@@ -13,7 +13,7 @@ namespace MoneyFamily.WebApi
         {
             builder.Services
                 .AddTransient<IAuthenticationController, AuthenticationControllerActions>()
-                .AddTransient<AuthenticationAppricationService>()
+                .AddTransient<UserAppricationService>()
                 .AddTransient<UserService>()
                 .AddTransient<IUserRepository, UserRepository>()
                 ;

@@ -58,7 +58,8 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task Update(HashUser user)
         {
-            throw new NotImplementedException();
+            moneyFamilyContext.Entry(ToDto(user)).State = EntityState.Modified;
+            //throw new NotImplementedException();
         }
 
         private static UserDto ToDto(HashUser user)
