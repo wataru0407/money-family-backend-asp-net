@@ -45,7 +45,7 @@ namespace MoneyFamily.WebApi.Application.Service
                 new EmailAddress(command.Email),
                 new Password(command.Password)
                 );
-            
+
             var exists = await userService.Exists(user);
             if (exists) throw new CustomDuplicateException($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}");
 
@@ -69,27 +69,68 @@ namespace MoneyFamily.WebApi.Application.Service
             return new UserGetResult(user.Id.Value, user.Name.Value, user.Email.Value);
         }
 
+        public async Task<UserQueryResult> GetQuery(UserQueryCommand command)
+        {
+            var mail = new EmailAddress(command.Email);
+            var user = await userRepository.FindByEmail(mail);
+            if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。メールアドレスID：{command.Email}");
+
+            return new UserQueryResult(user.Id.Value, user.Name.Value, user.Email.Value);
+        }
+
+
+
         public async Task<UserUpdateResult> Update(UserUpdateCommand command)
         {
             using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
             var id = new UserId(command.Id);
-            var hashUser = userRepository.FindById(id);
-            if (hashUser == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
-
-            //var user = User.CreateInstance(
-            //    id,
-            //    new UserName(command.Name),
-            //    new EmailAddress(command.Email)
-            //    new Password();
+            var user = await userRepository.FindById(id);
+            if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
 
             if (command.Name is not null)
             {
                 var name = new UserName(command.Name);
-                //hashUser.Change();
+                user.ChangeName(name);
             }
-            return null;
 
+            if (command.Email is not null)
+            {
+                var email = new EmailAddress(command.Email);
+                user.ChageEmail(email);
+
+                if (await userService.Exists(user)) throw new CustomDuplicateException($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}");
+            }
+
+            if (command.Password is not null)
+            {
+                var password = new Password(command.Password);
+                user.ChangePassword(password);
+            }
+
+            await userRepository.Update(user);
+
+            transaction.Complete();
+
+            return new UserUpdateResult(
+                command.Id,
+                command.Name,
+                command.Email
+                );
+
+        }
+
+        public async Task Delete(UserDeleteCommand command)
+        {
+            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
+            var id = new UserId(command.Id);
+            var user = await userRepository.FindById(id);
+            if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
+
+            await userRepository.Delete(user);
+
+            transaction.Complete();
         }
     }
 }

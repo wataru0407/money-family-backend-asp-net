@@ -60,8 +60,23 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task Update(User user)
         {
-            moneyFamilyContext.Entry(ToDto(user)).State = EntityState.Modified;
+            //moneyFamilyContext.Entry(ToDto(user)).State = EntityState.Modified;
+            //moneyFamilyContext.Update(ToDto(user));
+            var dto = ToDto(user);
+            var updateUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
+            updateUser.UserName = dto.UserName;
+            updateUser.EmailAddress = dto.EmailAddress;
+            updateUser.Password = dto.Password;
+            await moneyFamilyContext.SaveChangesAsync();
             //throw new NotImplementedException();
+        }
+
+        public async Task Delete(User user)
+        {
+            var dto = ToDto(user);
+            var deleteUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
+            moneyFamilyContext.Remove(deleteUser);
+            await moneyFamilyContext.SaveChangesAsync();
         }
 
         private static UserDto ToDto(User user)

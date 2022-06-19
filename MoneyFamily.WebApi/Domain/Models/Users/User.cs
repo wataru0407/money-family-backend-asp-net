@@ -9,7 +9,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
         public UserId Id { get; }
         public UserName Name { get; private set; }
         public EmailAddress Email { get; private set; }
-        public Password? Password { get; private set; } = null;
+        public Password Password { get; private set; } = new Password("DefaultPassword123");
 
         private string? _hashPassword;
         public string HashPassword

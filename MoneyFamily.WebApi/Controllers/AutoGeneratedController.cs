@@ -4,6 +4,8 @@
 // </auto-generated>
 //----------------------
 
+#nullable enable
+
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
 #pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
@@ -15,7 +17,7 @@
 
 namespace MoneyFamily.WebApi.Controllers
 {
-    using Newtonsoft.Json;
+    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -145,7 +147,7 @@ namespace MoneyFamily.WebApi.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
-
+    [ApiController]
     public partial class UsersController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IUsersController _implementation;
@@ -172,7 +174,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// </summary>
         /// <param name="userId">ユーザID</param>
         /// <returns>OK</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("v1/users/{userId}")]
+        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("v1/users/{userId}")]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<UserResponse>> UpdateUserById([Microsoft.AspNetCore.Mvc.FromBody] UserRequest body, System.Guid userId)
         {
 
@@ -196,8 +198,8 @@ namespace MoneyFamily.WebApi.Controllers
         /// </summary>
         /// <param name="emailAddress">メールアドレス</param>
         /// <returns>OK</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("v1/users/{emailAddress}")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<UserResponse>> GetUserByEmailAddress(string emailAddress)
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("v1/users")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<UserResponse>> GetUserByEmailAddress([Microsoft.AspNetCore.Mvc.FromQuery] string emailAddress)
         {
 
             return _implementation.GetUserByEmailAddressAsync(emailAddress);
@@ -1224,11 +1226,11 @@ namespace MoneyFamily.WebApi.Controllers
     {
         [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Email { get; set; }
+        public string Email { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("password", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Password { get; set; }
+        public string Password { get; set; } = default!;
 
     }
 
@@ -1236,21 +1238,21 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class LoginResponse
     {
         [Newtonsoft.Json.JsonProperty("token", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Token { get; set; }
+        public string? Token { get; set; } = default!;
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class UserRequest
     {
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        [Newtonsoft.Json.JsonProperty("name", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Email { get; set; }
+        [Newtonsoft.Json.JsonProperty("email",NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Email { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("password", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Password { get; set; }
+        [Newtonsoft.Json.JsonProperty("password",NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Password { get; set; } = default!;
 
     }
 
@@ -1258,13 +1260,13 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class UserResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        public string? Name { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Email { get; set; }
+        public string? Email { get; set; } = default!;
 
     }
 
@@ -1273,7 +1275,7 @@ namespace MoneyFamily.WebApi.Controllers
     {
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
     }
 
@@ -1281,16 +1283,16 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class AccountResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        public string? Name { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("createUserId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid CreateUserId { get; set; }
+        public System.Guid CreateUserId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("members", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<System.Guid> Members { get; set; }
+        public System.Collections.Generic.List<System.Guid>? Members { get; set; } = default!;
 
     }
 
@@ -1298,7 +1300,7 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class AccountMemberRequest
     {
         [Newtonsoft.Json.JsonProperty("userId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid UserId { get; set; }
+        public System.Guid UserId { get; set; } = default!;
 
     }
 
@@ -1308,30 +1310,30 @@ namespace MoneyFamily.WebApi.Controllers
         [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateTimeOffset Date { get; set; }
+        public System.DateTimeOffset Date { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CategoryId { get; set; }
+        public string CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryDatailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryDatailId { get; set; }
+        public string? CategoryDatailId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceId { get; set; }
+        public string? SourceId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sourceDetailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceDetailId { get; set; }
+        public string? SourceDetailId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("costdatail", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<ValiableCostDatail> Costdatail { get; set; }
+        public System.Collections.Generic.List<ValiableCostDatail>? Costdatail { get; set; } = default!;
 
     }
 
@@ -1339,38 +1341,38 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class VariableCostResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateTimeOffset? Date { get; set; }
+        public System.DateTimeOffset? Date { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("dayOfWeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? DayOfWeek { get; set; }
+        public int? DayOfWeek { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("weekOfYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? WeekOfYear { get; set; }
+        public int? WeekOfYear { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryDatailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryDatailId { get; set; }
+        public string? CategoryDatailId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Amount { get; set; }
+        public string? Amount { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceId { get; set; }
+        public string? SourceId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sourceDetailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceDetailId { get; set; }
+        public string? SourceDetailId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("costdatail", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<ValiableCostDatail> Costdatail { get; set; }
+        public System.Collections.Generic.List<ValiableCostDatail>? Costdatail { get; set; } = default!;
 
     }
 
@@ -1378,10 +1380,10 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class ValiableCostDatail
     {
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Amount { get; set; }
+        public string? Amount { get; set; } = default!;
 
     }
 
@@ -1389,18 +1391,18 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class BudgetRequest
     {
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CategoryId { get; set; }
+        public string CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("budgetAmount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string BudgetAmount { get; set; }
+        public string BudgetAmount { get; set; } = default!;
 
     }
 
@@ -1408,19 +1410,19 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class BudgetResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Id { get; set; }
+        public string? Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("budgetAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BudgetAmount { get; set; }
+        public string? BudgetAmount { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("actualAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ActualAmount { get; set; }
+        public string? ActualAmount { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("variance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Variance { get; set; }
+        public string? Variance { get; set; } = default!;
 
     }
 
@@ -1428,20 +1430,20 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class FixedCostRequest
     {
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1449,23 +1451,23 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class FixedCostResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1473,20 +1475,20 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class SpecialCostRequest
     {
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1494,23 +1496,23 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class SpecialCostResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1518,20 +1520,20 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class SavingRequest
     {
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1539,23 +1541,23 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class SavingResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1563,20 +1565,20 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class IncomeRequest
     {
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1584,23 +1586,23 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class IncomeResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("year", Required = Newtonsoft.Json.Required.Always)]
-        public int Year { get; set; }
+        public int Year { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.Always)]
-        public int Month { get; set; }
+        public int Month { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Content { get; set; }
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Amount { get; set; }
+        public string Amount { get; set; } = default!;
 
     }
 
@@ -1608,13 +1610,13 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class CategoryResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Id { get; set; }
+        public string? Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        public string? Name { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("details", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<Details> Details { get; set; }
+        public System.Collections.Generic.List<Details>? Details { get; set; } = default!;
 
     }
 
@@ -1622,10 +1624,10 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class SourceResponse
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Id { get; set; }
+        public string? Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        public string? Name { get; set; } = default!;
 
     }
 
@@ -1633,10 +1635,10 @@ namespace MoneyFamily.WebApi.Controllers
     public partial class Details
     {
         [Newtonsoft.Json.JsonProperty("detailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DetailId { get; set; }
+        public string? DetailId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("detailName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DetailName { get; set; }
+        public string? DetailName { get; set; } = default!;
 
     }
 

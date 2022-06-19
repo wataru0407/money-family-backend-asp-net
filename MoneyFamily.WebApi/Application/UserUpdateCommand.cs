@@ -3,16 +3,13 @@
     public class UserUpdateCommand
     {
         public Guid Id { get; }
-        public string Name { get; }
-        public string Email { get; }
-        public string Password { get; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
 
-        public UserUpdateCommand(Guid id, string name = null, string email = null, string password = null)
+        public UserUpdateCommand(Guid id)
         {
             Id = id;
-            Name = name;
-            Email = email;
-            Password = password;
         }
     }
 }

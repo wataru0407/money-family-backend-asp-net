@@ -2,7 +2,7 @@
 {
     public class UserGetCommand
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
         public UserGetCommand(Guid id)
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyFamily.WebApi.Application;
+using MoneyFamily.WebApi.Application.Exceptions;
 using MoneyFamily.WebApi.Application.Service;
 using MoneyFamily.WebApi.Controllers;
 using MoneyFamily.WebApi.Domain.Models.Users;
@@ -36,6 +37,10 @@ namespace MoneyFamily.WebApi.Presentation.Controller
                     Email = result.Email,
                 };
                 return Created(response.Id.ToString(), response);
+            }
+            catch (CustomDuplicateException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
