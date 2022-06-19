@@ -1,10 +1,16 @@
 ﻿using MoneyFamily.WebApi.Application.Exceptions;
+using MoneyFamily.WebApi.Application.Users.Create;
+using MoneyFamily.WebApi.Application.Users.Delete;
+using MoneyFamily.WebApi.Application.Users.Get;
+using MoneyFamily.WebApi.Application.Users.Login;
+using MoneyFamily.WebApi.Application.Users.Query;
+using MoneyFamily.WebApi.Application.Users.Update;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
 using MoneyFamily.WebApi.Domain.Service;
 using System.Transactions;
 
-namespace MoneyFamily.WebApi.Application.Service
+namespace MoneyFamily.WebApi.Application.Users
 {
     public class UserAppricationService
     {
@@ -21,6 +27,11 @@ namespace MoneyFamily.WebApi.Application.Service
 
         public async Task<UserLoginResult> Login(UserLoginCommand command)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             var email = new EmailAddress(command.Email);
             var found = await userRepository.FindByEmail(email);
             if (found == null) throw new CustomNotFoundException($"ユーザが見つかりません。メールアドレス：{command.Email}");
@@ -38,6 +49,11 @@ namespace MoneyFamily.WebApi.Application.Service
 
         public async Task<UserCreateResult> CreateUser(UserCreateCommand command)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
             var user = userFactory.CreateNew(
@@ -62,6 +78,11 @@ namespace MoneyFamily.WebApi.Application.Service
 
         public async Task<UserGetResult> Get(UserGetCommand command)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             var id = new UserId(command.Id);
             var user = await userRepository.FindById(id);
             if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。ユーザID：{command.Id}");
@@ -71,6 +92,11 @@ namespace MoneyFamily.WebApi.Application.Service
 
         public async Task<UserQueryResult> GetQuery(UserQueryCommand command)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             var mail = new EmailAddress(command.Email);
             var user = await userRepository.FindByEmail(mail);
             if (user == null) throw new CustomNotFoundException($"ユーザが見つかりません。メールアドレスID：{command.Email}");
@@ -82,6 +108,11 @@ namespace MoneyFamily.WebApi.Application.Service
 
         public async Task<UserUpdateResult> Update(UserUpdateCommand command)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
             var id = new UserId(command.Id);

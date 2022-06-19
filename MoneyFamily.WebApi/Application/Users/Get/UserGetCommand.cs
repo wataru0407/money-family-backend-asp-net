@@ -1,4 +1,4 @@
-﻿namespace MoneyFamily.WebApi.Application
+﻿namespace MoneyFamily.WebApi.Application.Users.Get
 {
     public class UserGetCommand
     {

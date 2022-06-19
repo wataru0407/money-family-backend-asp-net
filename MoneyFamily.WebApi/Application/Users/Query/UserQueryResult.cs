@@ -1,12 +1,12 @@
-﻿namespace MoneyFamily.WebApi.Application
+﻿namespace MoneyFamily.WebApi.Application.Users.Query
 {
-    public class UserGetResult
+    public class UserQueryResult
     {
         public Guid Id { get; }
         public string Name { get; }
         public string Email { get; }
 
-        public UserGetResult(Guid id, string name, string email)
+        public UserQueryResult(Guid id, string name, string email)
         {
             Id = id;
             Name = name;

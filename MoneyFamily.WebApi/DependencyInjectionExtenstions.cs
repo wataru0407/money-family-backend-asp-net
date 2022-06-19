@@ -1,4 +1,4 @@
-﻿using MoneyFamily.WebApi.Application.Service;
+﻿using MoneyFamily.WebApi.Application.Users;
 using MoneyFamily.WebApi.Controllers;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
@@ -13,7 +13,7 @@ namespace MoneyFamily.WebApi
         public static WebApplicationBuilder AddDependencyInjection(WebApplicationBuilder builder)
         {
             builder.Services
-                .AddTransient<IAuthenticationController, AuthenticationControllerActions>()
+                .AddTransient<IAuthenticationController, AuthController>()
                 .AddTransient<IUsersController, UserController>()
                 .AddTransient<UserAppricationService>()
                 .AddTransient<UserService>()

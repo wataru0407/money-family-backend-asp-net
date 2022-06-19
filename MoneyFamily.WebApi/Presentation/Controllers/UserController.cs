@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyFamily.WebApi.Application;
 using MoneyFamily.WebApi.Application.Exceptions;
-using MoneyFamily.WebApi.Application.Service;
+using MoneyFamily.WebApi.Application.Users;
+using MoneyFamily.WebApi.Application.Users.Create;
+using MoneyFamily.WebApi.Application.Users.Delete;
+using MoneyFamily.WebApi.Application.Users.Get;
+using MoneyFamily.WebApi.Application.Users.Query;
+using MoneyFamily.WebApi.Application.Users.Update;
 using MoneyFamily.WebApi.Controllers;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Presentation.Secutiry;
