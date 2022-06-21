@@ -40,7 +40,7 @@ namespace MoneyFamily.WebApi.Application.Users
             //var hashPassword = userService.CreateHashPassword(email, password);
             //if (hashPassword.Value != found.Password.Value) throw new CustomCanNotLoginException($"パスワードが一致しません。");
 
-            var loginUser = new User(found.Id, found.Name, email, password);
+            var loginUser = userFactory.CreateLogin(found.Id, found.Name, email, password);
             var isMatchPassword = loginUser.HashPassword == found.HashPassword;
             if (!isMatchPassword) throw new CustomCanNotLoginException("パスワードが一致しません。");
 

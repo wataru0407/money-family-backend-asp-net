@@ -5,18 +5,20 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
 {
     public class User
     {
+        public const string DefaultPassword = "af7785cc1fde29d13927843c50be3213";
+        private const string DefaultHashPassword = "e88a50133076de7279c15fbfd4ec1157";
 
         public UserId Id { get; }
         public UserName Name { get; private set; }
         public EmailAddress Email { get; private set; }
-        public Password Password { get; private set; } = new Password("DefaultPassword123");
+        public Password Password { get; private set; }
 
-        private string? _hashPassword;
+        private string _hashPassword = DefaultHashPassword;
         public string HashPassword
         {
             get
             {
-                if (_hashPassword == null)
+                if (_hashPassword == DefaultHashPassword)
                 {
                     return ConvertHashPassword();
                 }
@@ -40,16 +42,16 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
             Password = password ?? throw new ArgumentNullException(nameof(password));
         }
 
-        public User(
-            UserId id,
-            UserName name,
-            EmailAddress email
-            )
-        {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-        }
+        //public User(
+        //    UserId id,
+        //    UserName name,
+        //    EmailAddress email
+        //    )
+        //{
+        //    Id = id ?? throw new ArgumentNullException(nameof(id));
+        //    Name = name ?? throw new ArgumentNullException(nameof(name));
+        //    Email = email ?? throw new ArgumentNullException(nameof(email));
+        //}
 
         //public static User CreateNew(
         //    UserName userName,
@@ -70,12 +72,12 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
         //    string hashPassword
         //    )
         //{
-        //    //HashPassword = hashPassword;
+        //    HashPassword = hashPassword;
         //    return new User(
         //        userId,
         //        name,
         //        email,
-        //        Password.Empty
+        //        new Password(DefaultPassword)
         //        );
         //}
 
@@ -94,7 +96,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
             Password = password;
         }
 
-        public string ConvertHashPassword()
+        private string ConvertHashPassword()
         {
             var solt = Encoding.UTF8.GetBytes(Id.Value.ToString());
             var hash = KeyDerivation.Pbkdf2(

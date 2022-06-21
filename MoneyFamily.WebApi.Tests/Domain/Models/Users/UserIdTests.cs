@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MoneyFamily.WebApi.Tests.Domain.Models.User
+namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
 {
     public class UserIdTests
     {
         [Fact]
-        public void 正常にインスタンスを生成するテスト()
+        public void 正常にインスタンスが生成できることを確認する()
         {
             var expected = Guid.NewGuid();
             var userId = new UserId(expected);
@@ -21,7 +21,7 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.User
         }
 
         [Fact]
-        public void Guidがnullの場合に例外が発生するテスト()
+        public void Guidがnullの場合に例外が発生することを確認する()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => new UserId(Guid.Empty));
             Assert.Equal("Value cannot be null. (Parameter 'value')", ex.Message);

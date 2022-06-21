@@ -12,7 +12,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
 
         public Password(string value)
         {
-            if (value is null) throw new ArgumentNullException(nameof(value));
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
             if (value.Length < MinPasswordLength || value.Length > MaxPasswordLength) throw new ArgumentException($"パスワードの文字数が不正です。文字数：{value.Length}");
             if (!IsValidPassword(value)) throw new ArgumentException("パスワードの形式が不正です。");
             Value = value;

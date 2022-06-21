@@ -9,12 +9,23 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
 
         public EmailAddress(string value)
         {
-            if (value is null) throw new ArgumentNullException(nameof(value));
-
-            var attr = new EmailAddressAttribute();
-            if (!attr.IsValid(value)) throw new ArgumentException("メールアドレスの形式が不正です。");
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+            if (!IsValidEmail(value)) throw new ArgumentException("メールアドレスの形式が不正です。");
 
             Value = value;
+        }
+
+        private static bool IsValidEmail(string value)
+        {
+            try
+            {
+                var email = new MailAddress(value);
+                return email.Address == value;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
