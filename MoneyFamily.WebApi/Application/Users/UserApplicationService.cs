@@ -12,13 +12,13 @@ using System.Transactions;
 
 namespace MoneyFamily.WebApi.Application.Users
 {
-    public class UserAppricationService
+    public class UserApplicationService
     {
         private readonly IUserRepository userRepository;
         private readonly UserService userService;
         private readonly IUserFactory userFactory;
 
-        public UserAppricationService(IUserRepository userRepository, UserService userService, IUserFactory userFactory)
+        public UserApplicationService(IUserRepository userRepository, UserService userService, IUserFactory userFactory)
         {
             this.userRepository = userRepository;
             this.userService = userService;
@@ -67,12 +67,14 @@ namespace MoneyFamily.WebApi.Application.Users
 
             await userRepository.Save(user);
 
+            var result = await userRepository.FindById(user.Id);
+
             transaction.Complete();
 
             return new UserCreateResult(
-                user.Id.Value,
-                user.Name.Value,
-                user.Email.Value
+                result.Id.Value,
+                result.Name.Value,
+                result.Email.Value
                 );
         }
 
@@ -141,12 +143,15 @@ namespace MoneyFamily.WebApi.Application.Users
 
             await userRepository.Update(user);
 
+            var result = await userRepository.FindById(id);
+
             transaction.Complete();
 
+
             return new UserUpdateResult(
-                command.Id,
-                command.Name,
-                command.Email
+                result.Id.Value,
+                result.Name.Value,
+                result.Email.Value
                 );
 
         }

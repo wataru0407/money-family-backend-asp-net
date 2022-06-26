@@ -12,9 +12,9 @@ namespace MoneyFamily.WebApi.Presentation.Controller
 {
     public class UserController : ControllerBase, IUsersController
     {
-        private readonly UserAppricationService userAppricationService;
+        private readonly UserApplicationService userAppricationService;
 
-        public UserController(UserAppricationService userAppricationService)
+        public UserController(UserApplicationService userAppricationService)
         {
             this.userAppricationService = userAppricationService;
         }

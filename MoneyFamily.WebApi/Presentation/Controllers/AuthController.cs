@@ -10,10 +10,10 @@ namespace MoneyFamily.WebApi.Presentation.Controller
 {
     public class AuthController : ControllerBase, IAuthenticationController
     {
-        private readonly UserAppricationService userAppricationService;
+        private readonly UserApplicationService userAppricationService;
         private readonly JwtSetting jwtSetting;
 
-        public AuthController(UserAppricationService userAppricationService, JwtSetting jwtSetting)
+        public AuthController(UserApplicationService userAppricationService, JwtSetting jwtSetting)
         {
             this.userAppricationService = userAppricationService;
             this.jwtSetting = jwtSetting;
