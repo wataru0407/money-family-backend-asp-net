@@ -29,7 +29,6 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         [Theory]
         [InlineData("test123")]
         [InlineData("test@test@test.com")]
-        //[InlineData("1w$")]
         public void メールアドレスの形式が不正の場合に例外が発生することを確認する(string value)
         {
             var ex = Assert.Throws<ArgumentException>(() => new EmailAddress(value));

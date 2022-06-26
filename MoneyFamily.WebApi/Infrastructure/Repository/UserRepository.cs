@@ -18,57 +18,35 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task<User?> FindByEmail(EmailAddress email)
         {
-            //var test = moneyFamilyContext.Users;
-            //var emailad = email.Value;
             var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.EmailAddress.Equals(email.Value));
             if (result == null) return null;
-            return ToDomainModel(result);
 
-            // 仮生成
-            //return User.CreateFromRepository(
-            //    new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
-            //    new UserName("admin"),
-            //    new EmailAddress("admin@gmail.com"),
-            //    new Password("admin1234")
-            //    );
-            //throw new NotImplementedException();
+            return ToDomainModel(result);
         }
 
         public async Task<User?> FindById(UserId id)
         {
             var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.UserId.Equals(id.Value));
             if (result == null) return null;
-            return ToDomainModel(result);
 
-            // 仮生成
-            //return User.CreateInstance(
-            //    new UserId(Guid.Parse("f29e6562-5105-723e-b799-340bfbcfaa79")),
-            //    new UserName("admin"),
-            //    new EmailAddress("admin@gmail.com"),
-            //    new Password("admin")
-            //    );
-            //throw new NotImplementedException();
+            return ToDomainModel(result);
         }
 
         public async Task Save(User user)
         {
-
             moneyFamilyContext.Add(ToDto(user));
             await moneyFamilyContext.SaveChangesAsync();
-            //throw new NotImplementedException();
         }
 
         public async Task Update(User user)
         {
-            //moneyFamilyContext.Entry(ToDto(user)).State = EntityState.Modified;
-            //moneyFamilyContext.Update(ToDto(user));
             var dto = ToDto(user);
             var updateUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
             updateUser.UserName = dto.UserName;
             updateUser.EmailAddress = dto.EmailAddress;
             updateUser.Password = dto.Password;
+
             await moneyFamilyContext.SaveChangesAsync();
-            //throw new NotImplementedException();
         }
 
         public async Task Delete(User user)
@@ -76,6 +54,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             var dto = ToDto(user);
             var deleteUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
             moneyFamilyContext.Remove(deleteUser);
+
             await moneyFamilyContext.SaveChangesAsync();
         }
 
@@ -96,8 +75,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
                 new UserId(dto.UserId),
                 new UserName(dto.UserName),
                 new EmailAddress(dto.EmailAddress),
-                dto.Password
-                );
+                dto.Password);
         }
     }
 }

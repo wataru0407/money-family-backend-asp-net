@@ -8,16 +8,21 @@ using MoneyFamily.WebApi.Presentation.Controller;
 
 namespace MoneyFamily.WebApi
 {
-    public static class DependencyInjectionExtenstions
+    public static class DependencyInjectionExtenstion
     {
         public static WebApplicationBuilder AddDependencyInjection(WebApplicationBuilder builder)
         {
             builder.Services
+                // Controller
                 .AddTransient<IAuthenticationController, AuthController>()
                 .AddTransient<IUsersController, UserController>()
+                // ApplicationService
                 .AddTransient<UserApplicationService>()
+                // DomainService
                 .AddTransient<UserService>()
+                // Repository
                 .AddTransient<IUserRepository, UserRepository>()
+                // Factory
                 .AddTransient<IUserFactory, UserFactory>()
                 ;
             return builder;

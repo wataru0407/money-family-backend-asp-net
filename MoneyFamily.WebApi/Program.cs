@@ -6,7 +6,7 @@ using MoneyFamily.WebApi.Presentation.Secutiry;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-JwtConfigurationExtensions.AddJwtServices(builder);
+JwtConfigurationExtension.AddJwtServices(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
 });
 
 //DI
-DependencyInjectionExtenstions.AddDependencyInjection(builder);
+DependencyInjectionExtenstion.AddDependencyInjection(builder);
 
 
 //DbContext

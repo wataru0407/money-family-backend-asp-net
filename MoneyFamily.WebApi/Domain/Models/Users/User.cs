@@ -13,6 +13,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
         public EmailAddress Email { get; private set; }
         public Password Password { get; private set; }
 
+        // パスワードをハッシュ化したものを取得したい場合HashPasswordを使用する
         private string _hashPassword = DefaultHashPassword;
         public string HashPassword
         {
@@ -42,45 +43,6 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
             Password = password ?? throw new ArgumentNullException(nameof(password));
         }
 
-        //public User(
-        //    UserId id,
-        //    UserName name,
-        //    EmailAddress email
-        //    )
-        //{
-        //    Id = id ?? throw new ArgumentNullException(nameof(id));
-        //    Name = name ?? throw new ArgumentNullException(nameof(name));
-        //    Email = email ?? throw new ArgumentNullException(nameof(email));
-        //}
-
-        //public static User CreateNew(
-        //    UserName userName,
-        //    EmailAddress email,
-        //    Password password)
-        //{
-        //    return new User(
-        //        new UserId(Guid.NewGuid()),
-        //        userName,
-        //        email,
-        //        password);
-        //}
-
-        //public static User CreateFromRepository(
-        //    UserId userId,
-        //    UserName name,
-        //    EmailAddress email,
-        //    string hashPassword
-        //    )
-        //{
-        //    HashPassword = hashPassword;
-        //    return new User(
-        //        userId,
-        //        name,
-        //        email,
-        //        new Password(DefaultPassword)
-        //        );
-        //}
-
         public void ChangeName(UserName name)
         {
             Name = name;
@@ -104,8 +66,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
                 solt,
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
-                numBytesRequested: 256 / 8
-                );
+                numBytesRequested: 256 / 8);
             return Convert.ToBase64String(hash);
         }
 

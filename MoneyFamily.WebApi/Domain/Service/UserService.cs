@@ -19,35 +19,5 @@ namespace MoneyFamily.WebApi.Domain.Service
             var found = await userRepository.FindByEmail(user.Email);
             return found != null;
         }
-
-        public async Task<bool> IsMatchPassword(User user)
-        {
-            var found = await userRepository.FindByEmail(user.Email);
-            if (found == null) return false;
-
-            return found.HashPassword == user.HashPassword;
-        }
-
-        //public HashUser CreateHashUser(User user)
-        //{
-        //    return new HashUser(
-        //        user.Id,
-        //        user.Name,
-        //        user.Email,
-        //        CreateHashPassword(user.Email, user.Password)
-        //        );
-        //}
-        //public HashPassword CreateHashPassword(EmailAddress email, Password password)
-        //{
-        //    var solt = Encoding.UTF8.GetBytes(email.Value);
-        //    var hash = KeyDerivation.Pbkdf2(
-        //        password.Value,
-        //        solt,
-        //        prf: KeyDerivationPrf.HMACSHA256,
-        //        iterationCount: 10000,
-        //        numBytesRequested: 256 / 8
-        //        );
-        //    return new HashPassword(Convert.ToBase64String(hash));
-        //}
     }
 }

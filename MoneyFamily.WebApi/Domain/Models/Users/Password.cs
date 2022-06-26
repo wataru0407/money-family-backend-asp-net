@@ -18,6 +18,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Users
             Value = value;
         }
 
+        //半角英数字のみ、かつ英字1文字以上数字1文字以上使うルールとする
         private static bool IsValidPassword(string value)
         {
             // 半角英数字のみ

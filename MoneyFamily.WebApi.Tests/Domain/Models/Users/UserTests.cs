@@ -22,7 +22,6 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         }
 
         [Fact]
-        //[InlineData("1w$")]
         public void プロパティが変更できることを確認する()
         {
             var guid = Guid.NewGuid();

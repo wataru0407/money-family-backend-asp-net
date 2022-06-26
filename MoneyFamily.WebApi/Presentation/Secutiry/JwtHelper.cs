@@ -16,7 +16,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
                 new Claim(JwtRegisteredClaimNames.Sub, id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-        };
+            };
         }
 
         public static string GenToken(Guid id, JwtSetting jwtSettings)
@@ -32,8 +32,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
                     claims: GetClaims(id),
                     notBefore: nowTime,
                     expires: expireTime,
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-                    );
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256));
                 var token = new JwtSecurityTokenHandler().WriteToken(jwt);
                 return token;
             }

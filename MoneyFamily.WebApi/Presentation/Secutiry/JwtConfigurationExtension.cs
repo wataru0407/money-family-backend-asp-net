@@ -3,11 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MoneyFamily.WebApi.Presentation.Secutiry
 {
-    public static class JwtConfigurationExtensions
+    public static class JwtConfigurationExtension
     {
         public static void AddJwtServices(WebApplicationBuilder builder)
         {
-            // Add Jwt Setings
             var bindJwtSettings = new JwtSetting();
             builder.Configuration.Bind("JwtSettings", bindJwtSettings);
             builder.Services.AddSingleton(bindJwtSettings);
