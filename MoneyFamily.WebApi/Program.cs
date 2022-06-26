@@ -5,9 +5,6 @@ using MoneyFamily.WebApi.Presentation.Secutiry;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-JwtConfigurationExtension.AddJwtServices(builder);
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -56,22 +53,17 @@ builder.Services.AddCors(options =>
         );
 });
 
+// Add services to the container.
+JwtConfigurationExtension.AddJwtServices(builder);
+
 //DI
 DependencyInjectionExtenstion.AddDependencyInjection(builder);
-
 
 //DbContext
 builder.Services.AddDbContext<MoneyFamilyContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("MoneyFamilyContext"));
 });
-//builder.Services.AddMvc().AddJsonOptions(options =>
-//{
-//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-//});
-
-//solt
-
 
 var app = builder.Build();
 
