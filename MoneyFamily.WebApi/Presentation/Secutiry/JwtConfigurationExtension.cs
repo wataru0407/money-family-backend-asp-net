@@ -31,6 +31,7 @@ namespace MoneyFamily.WebApi.Presentation.Secutiry
                     ClockSkew = TimeSpan.Zero,
                 };
             });
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }
