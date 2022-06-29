@@ -1,10 +1,10 @@
 ﻿namespace MoneyFamily.WebApi.Application.Accounts.GetAll
 {
-    public class AccountGetCommand
+    public class AccountGetAllCommand
     {
         public Guid UserId { get; }
 
-        public AccountGetCommand(Guid userId)
+        public AccountGetAllCommand(Guid userId)
         {
             UserId = userId;
         }

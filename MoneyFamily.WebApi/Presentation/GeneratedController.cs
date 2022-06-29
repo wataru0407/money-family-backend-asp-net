@@ -313,6 +313,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// </summary>
         /// <returns>Created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("v1/accounts")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<AccountResponse>> CreateAccount([Microsoft.AspNetCore.Mvc.FromBody] AccountRequest body)
         {
 
@@ -325,6 +326,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// <param name="accountId">家計簿ID</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("v1/accounts/{accountId}")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<AccountResponse>> GetAccountById(System.Guid accountId)
         {
 
@@ -337,6 +339,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// <param name="accountId">家計簿ID</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("v1/accounts/{accountId}")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<AccountResponse>> UpdateAccount([Microsoft.AspNetCore.Mvc.FromBody] AccountRequest body, System.Guid accountId)
         {
 
@@ -349,6 +352,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// <param name="accountId">家計簿ID</param>
         /// <returns>No Content</returns>
         [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("v1/accounts/{accountId}")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> DeleteAccount(System.Guid accountId)
         {
 

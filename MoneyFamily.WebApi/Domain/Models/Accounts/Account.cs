@@ -1,4 +1,5 @@
 ﻿using MoneyFamily.WebApi.Domain.Models.Users;
+using System.Collections.ObjectModel;
 
 namespace MoneyFamily.WebApi.Domain.Models.Accounts
 {
@@ -11,7 +12,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
 
         private const int MaxMemberCount = 10;
 
-        private Account(AccountId id, AccountName name, UserId createUser, List<UserId> members)
+        public Account(AccountId id, AccountName name, UserId createUser, List<UserId> members)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -31,22 +32,28 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
             return new Account(id, name, createUser, members);
         }
 
-        public void Invite(User member)
+        public void AddMember(UserId userId)
         {
-            if (member is null) throw new ArgumentNullException(nameof(member));
+            if (userId is null) throw new ArgumentNullException(nameof(userId));
             if (Members.Count >= MaxMemberCount) throw new ArgumentException($"家計簿の人数が上限に達しています。");
-            Members.Add(member.Id);
+            Members.Add(userId);
         }
 
-        public void Delete(User member)
+        public void RemoveMember(UserId userId)
         {
-            if (member is null) throw new ArgumentNullException(nameof(member));
-            Members.Remove(member.Id);
+            if (userId is null) throw new ArgumentNullException(nameof(userId));
+            if (userId.Value == CreateUser.Value) throw new ArgumentException("家計簿の作成者は削除できません。");
+            Members.Remove(userId);
         }
 
-        public List<UserId> GetMembers()
+        public ReadOnlyCollection<UserId> GetMembers()
         {
-            return Members;
+            return Members.AsReadOnly();
+        }
+
+        public List<Guid> GetMemberIds()
+        {
+            return Members.Select(x => x.Value).ToList();
         }
 
         public void ChangeName(AccountName name)

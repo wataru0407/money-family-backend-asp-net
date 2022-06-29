@@ -6,7 +6,8 @@ namespace MoneyFamily.WebApi.Domain.Repository
     public interface IAccountRepository
     {
         Task Save(Account account);
-        Task Update(Account account);
+        Task UpdateAccount(Account account);
+        Task UpdateMember(Account account);
         Task Delete(Account account);
         Task<Account?> FindById(AccountId id);
         Task<IEnumerable<Account>> GetAll(UserId id);
