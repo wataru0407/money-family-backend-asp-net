@@ -365,6 +365,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// <param name="accountId">家計簿ID</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("v1/accounts/{accountId}/members")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<AccountResponse>> AddAccountMember([Microsoft.AspNetCore.Mvc.FromBody] AccountMemberRequest body, System.Guid accountId)
         {
 
@@ -378,6 +379,7 @@ namespace MoneyFamily.WebApi.Controllers
         /// <param name="userId">ユーザID</param>
         /// <returns>No Content</returns>
         [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("v1/accounts/{accountId}/members/{userId}")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> DeleteAccountMember(System.Guid accountId, System.Guid userId)
         {
 

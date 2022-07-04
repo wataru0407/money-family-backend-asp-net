@@ -19,6 +19,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
         {
             moneyFamilyContext.Accounts.Add(ToAccountDto(account));
             moneyFamilyContext.AccountUserRelations.AddRange(ToRelationDto(account));
+
             await moneyFamilyContext.SaveChangesAsync();
         }
 
@@ -27,44 +28,22 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             var accountDto = ToAccountDto(account);
             var updateAccount = await moneyFamilyContext.Accounts.SingleOrDefaultAsync(x => x.AccountId == accountDto.AccountId);
             updateAccount.AccountName = accountDto.AccountName;
+
             await moneyFamilyContext.SaveChangesAsync();
         }
 
         public async Task UpdateMember(Account account)
         {
-            //var accountDto = ToAccountDto(account);
-            //var updateAccount = await moneyFamilyContext.Accounts.SingleOrDefaultAsync(x => x.AccountId == accountDto.AccountId);
-            //updateAccount.AccountName = accountDto.AccountName;
-            //await moneyFamilyContext.SaveChangesAsync();
-
-            //var deleteDto = new AccountUserRelationDto();
-            //deleteDto.AccountId = account.Id.Value;
-            //moneyFamilyContext.AccountUserRelations.AttachRange(deleteDto);
-            //moneyFamilyContext.AccountUserRelations.RemoveRange(deleteDto);
-
-            //var addDtos = ToRelationDto(account);
-            //moneyFamilyContext.AccountUserRelations.AddRange(addDtos);
             var deleteRelations = await moneyFamilyContext.AccountUserRelations.Where(x => x.AccountId == account.Id.Value).ToListAsync();
             moneyFamilyContext.AccountUserRelations.RemoveRange(deleteRelations);
-            moneyFamilyContext.AccountUserRelations.AddRange(ToRelationDto(account));
+            var addRelations = ToRelationDto(account);
+            moneyFamilyContext.AccountUserRelations.AddRange(addRelations);
 
             await moneyFamilyContext.SaveChangesAsync();
         }
 
         public async Task Delete(Account account)
         {
-            //var accountDto = ToAccountDto(account);
-            //var accountDto = new AccountDto() { AccountId = account.Id.Value};
-
-            //moneyFamilyContext.Accounts.Attach(accountDto);
-            //moneyFamilyContext.Accounts.Remove(accountDto);
-
-            ////var relationDtos = ToRelationDto(account);
-            //var relation = new AccountUserRelationDto();
-            //relation.AccountId = account.Id.Value;
-            //moneyFamilyContext.AccountUserRelations.AttachRange(relation);
-            //moneyFamilyContext.AccountUserRelations.RemoveRange(relation);
-
             var deleteAccount = await moneyFamilyContext.Accounts.SingleOrDefaultAsync(x => x.AccountId == account.Id.Value);
             moneyFamilyContext.Accounts.Remove(deleteAccount);
             var deleteRelations = await moneyFamilyContext.AccountUserRelations.Where(x => x.AccountId == account.Id.Value).ToListAsync();
@@ -79,39 +58,20 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
             if (accountDto == null) return null;
 
             var relationDtos = await moneyFamilyContext.AccountUserRelations.Where(x => x.AccountId == id.Value).ToListAsync();
-            //var relationDtos = await (from r in moneyFamilyContext.AccountUserRelations
-            //                         where r.AccountId.Equals(id.Value)
-            //                         select r).ToListAsync();
             return ToDomainModel(accountDto, relationDtos);
         }
 
-        public async Task<IEnumerable<Account>> GetAll(UserId id)
+        public async Task<IEnumerable<Account>> GetAll(UserId userId)
         {
-            var accountIds = await (from r in moneyFamilyContext.AccountUserRelations
-                                     where r.UserId.Equals(id.Value)
-                                     select r.AccountId).ToListAsync();
-
-            //var accounts = new List<Account>();
-            //accountIds.ForEach(x => {
-            //    var accountDto = moneyFamilyContext.Accounts.FirstOrDefault(y => y.AccountId.Equals(y.AccountId));
-            //    var relationDtos = (from r in moneyFamilyContext.AccountUserRelations
-            //                              where r.AccountId.Equals(x)
-            //                              select r).ToList();
-            //    var result = ToDomainModel(accountDto, relationDtos);
-            //    accounts.Add(result);
-            //    //return result;
-            //});
-            var accounts = await Task.WhenAll(accountIds.Select(async x => await FindById(new AccountId(x))));
-            //var accounts = accountIds.Select(async x => await FindById(new AccountId(x)));
-            //var accounts = accountIds.Select(async x => {
-            //    var result = await FindById(new AccountId(x));
-            //    return result;
-            //    });
-            //foreach (var item in accountIds)
-            //{
-            //    var result = await FindById(new AccountId(item));
-            //    accounts.Add(result);
-            //}
+            var relations = await moneyFamilyContext.AccountUserRelations.Where(x => x.UserId == userId.Value).ToListAsync();
+            var accounts = new List<Account>();
+            foreach (var relation in relations)
+            {
+                var id = new AccountId(relation.AccountId);
+                var account = await FindById(id);
+                if (account is null) continue;
+                accounts.Add(account);
+            }
             return accounts;
         }
 

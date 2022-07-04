@@ -18,13 +18,11 @@ namespace MoneyFamily.WebApi.Presentation.Controllers
     {
 
         private readonly AccountApplicationService accountApplicationService;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly Guid userId;
 
         public AccountController(AccountApplicationService accountApplicationService, IHttpContextAccessor httpContextAccessor)
         {
             this.accountApplicationService = accountApplicationService;
-            this.httpContextAccessor = httpContextAccessor;
 
             var identity = httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
             userId = Guid.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
@@ -34,12 +32,7 @@ namespace MoneyFamily.WebApi.Presentation.Controllers
         {
             try
             {
-                var accessToken = httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-
-                //var accessToken = Request.Headers[HeaderNames.Authorization];
-                var identity = httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
-                var id = Guid.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-                var command = new AccountGetAllCommand(id);
+                var command = new AccountGetAllCommand(userId);
                 var result = await accountApplicationService.GetAll(command);
                 var response = result.Select(x =>
                 {
@@ -61,7 +54,6 @@ namespace MoneyFamily.WebApi.Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            //throw new NotImplementedException();
         }
 
         public async Task<ActionResult<AccountResponse>> AddAccountMemberAsync(AccountMemberRequest body, Guid accountId)

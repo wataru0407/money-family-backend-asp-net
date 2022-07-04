@@ -10,6 +10,6 @@ namespace MoneyFamily.WebApi.Domain.Repository
         Task UpdateMember(Account account);
         Task Delete(Account account);
         Task<Account?> FindById(AccountId id);
-        Task<IEnumerable<Account>> GetAll(UserId id);
+        Task<IEnumerable<Account>> GetAll(UserId userId);
     }
 }

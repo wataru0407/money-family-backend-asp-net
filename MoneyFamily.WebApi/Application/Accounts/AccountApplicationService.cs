@@ -9,7 +9,6 @@ using MoneyFamily.WebApi.Application.Exceptions;
 using MoneyFamily.WebApi.Domain.Models.Accounts;
 using MoneyFamily.WebApi.Domain.Models.Users;
 using MoneyFamily.WebApi.Domain.Repository;
-using System.Linq;
 using System.Transactions;
 
 namespace MoneyFamily.WebApi.Application.Accounts
@@ -166,6 +165,5 @@ namespace MoneyFamily.WebApi.Application.Accounts
 
             transaction.Complete();
         }
-
     }
 }

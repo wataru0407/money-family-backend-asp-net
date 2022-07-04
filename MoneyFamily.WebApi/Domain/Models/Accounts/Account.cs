@@ -10,7 +10,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public UserId CreateUser { get; }
         private List<UserId> Members { get; }
 
-        private const int MaxMemberCount = 10;
+        private const int MaxMemberCount = 5;
 
         public Account(AccountId id, AccountName name, UserId createUser, List<UserId> members)
         {
@@ -30,6 +30,11 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public static Account CreateFromRepository(AccountId id, AccountName name, UserId createUser, List<UserId> members)
         {
             return new Account(id, name, createUser, members);
+        }
+
+        public void ChangeName(AccountName name)
+        {
+            Name = name;
         }
 
         public void AddMember(UserId userId)
@@ -54,11 +59,6 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public List<Guid> GetMemberIds()
         {
             return Members.Select(x => x.Value).ToList();
-        }
-
-        public void ChangeName(AccountName name)
-        {
-            Name = name;
         }
     }
 }
