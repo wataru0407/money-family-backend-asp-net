@@ -12,7 +12,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
 
         private const int MaxMemberCount = 5;
 
-        public Account(AccountId id, AccountName name, UserId createUser, List<UserId> members)
+        private Account(AccountId id, AccountName name, UserId createUser, List<UserId> members)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -40,7 +40,7 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public void AddMember(UserId userId)
         {
             if (userId is null) throw new ArgumentNullException(nameof(userId));
-            if (Members.Count >= MaxMemberCount) throw new ArgumentException($"家計簿の人数が上限に達しています。");
+            if (Members.Count >= MaxMemberCount) throw new ArgumentException("家計簿の人数が上限に達しています。");
             Members.Add(userId);
         }
 
