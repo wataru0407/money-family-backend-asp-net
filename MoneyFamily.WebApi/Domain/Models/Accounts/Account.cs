@@ -40,7 +40,8 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public void AddMember(UserId userId)
         {
             if (userId is null) throw new ArgumentNullException(nameof(userId));
-            if (Members.Count >= MaxMemberCount) throw new ArgumentException("家計簿の人数が上限に達しています。");
+            if (IsFull()) throw new ArgumentException("家計簿の人数が上限に達しています。");
+            if (Members.Contains(userId)) throw new ArgumentException("すでに追加されているユーザです。");
             Members.Add(userId);
         }
 
@@ -59,6 +60,11 @@ namespace MoneyFamily.WebApi.Domain.Models.Accounts
         public List<Guid> GetMemberIds()
         {
             return Members.Select(x => x.Value).ToList();
+        }
+
+        public bool IsFull()
+        {
+            return Members.Count >= MaxMemberCount;
         }
     }
 }

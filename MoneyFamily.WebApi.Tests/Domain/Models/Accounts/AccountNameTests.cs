@@ -1,7 +1,7 @@
 ﻿using MoneyFamily.WebApi.Domain.Models.Accounts;
 using Xunit;
 
-namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
+namespace MoneyFamily.WebApi.Tests.Domain.Models.Accounts
 {
     public class AccountNameTests
     {

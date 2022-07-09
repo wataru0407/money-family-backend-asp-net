@@ -12,18 +12,14 @@ using MoneyFamily.WebApi.Domain.Service;
 using MoneyFamily.WebApi.Infrastructure.Repository;
 using Xunit;
 
-namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
+namespace MoneyFamily.WebApi.Tests.Application.Users
 {
     public class UserApplicationServiceTests
     {
         private readonly UserApplicationService userApplicationService;
         private readonly UserService userService;
         private readonly IUserFactory userFactory;
-        private readonly IUserRepository userRepository;
-        private readonly Guid test1UserId = Guid.Parse("f9450afc-bacb-3468-150c-dd048d37becd");
-        private readonly Guid test2UserId = Guid.Parse("6e1607fc-fd61-9600-69ff-e90168ffb367");
-        private readonly Guid test3UserId = Guid.Parse("c42361f2-d9ef-557a-43c7-4ed79f3a1a74");
-
+        private readonly InMemoryUserRepository userRepository;
 
         public UserApplicationServiceTests()
         {
@@ -83,7 +79,7 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         [Fact]
         public async void ユーザを取得できることを確認する()
         {
-            var command = new UserGetCommand(test1UserId);
+            var command = new UserGetCommand(userRepository.userId1.Value);
             var result = await userApplicationService.Get(command);
 
             Assert.NotNull(result);
@@ -120,7 +116,7 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         [Fact]
         public async void ユーザを更新できることを確認する()
         {
-            var command = new UserUpdateCommand(test2UserId)
+            var command = new UserUpdateCommand(userRepository.userId2.Value)
             {
                 Name = "test2A",
                 Email = "test2A@moneyfamily.net",
@@ -145,7 +141,7 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         [Fact]
         public async void 重複するメールアドレスには更新できないことを確認する()
         {
-            var command = new UserUpdateCommand(test2UserId) { Email = "test1@money-family.net" };
+            var command = new UserUpdateCommand(userRepository.userId2.Value) { Email = "test1@money-family.net" };
 
             var ex = await Assert.ThrowsAsync<CustomDuplicateException>(() => userApplicationService.Update(command));
             Assert.Equal($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}", ex.Message);
@@ -154,10 +150,10 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
         [Fact]
         public async void ユーザを削除できることを確認する()
         {
-            var command = new UserDeleteCommand(test3UserId);
+            var command = new UserDeleteCommand(userRepository.userId3.Value);
             await userApplicationService.Delete(command);
 
-            var ex = await Assert.ThrowsAsync<CustomNotFoundException>(() => userApplicationService.Get(new UserGetCommand(test3UserId)));
+            var ex = await Assert.ThrowsAsync<CustomNotFoundException>(() => userApplicationService.Get(new UserGetCommand(userRepository.userId3.Value)));
 
             Assert.Equal($"ユーザが見つかりません。ユーザID：{command.Id}", ex.Message);
         }

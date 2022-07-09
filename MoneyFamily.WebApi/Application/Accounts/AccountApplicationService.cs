@@ -32,7 +32,7 @@ namespace MoneyFamily.WebApi.Application.Accounts
 
             var id = new UserId(command.UserId);
             var accounts = await accountRepository.GetAll(id);
-            if (accounts == null) throw new CustomNotFoundException($"ユーザが所属する家計簿が見つかりません。ユーザID：{command.UserId}");
+            if (accounts.Count() == 0) throw new CustomNotFoundException($"ユーザが所属する家計簿が見つかりません。ユーザID：{command.UserId}");
 
             var result = accounts.Select(x =>
             {

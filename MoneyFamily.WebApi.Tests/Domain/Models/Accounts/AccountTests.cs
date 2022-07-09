@@ -2,7 +2,7 @@
 using MoneyFamily.WebApi.Domain.Models.Users;
 using Xunit;
 
-namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
+namespace MoneyFamily.WebApi.Tests.Domain.Models.Accounts
 {
     public class AccountTests
     {
@@ -83,6 +83,22 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
             var addUser = new UserId(Guid.NewGuid());
             var ex = Assert.Throws<ArgumentException>(() => actual.AddMember(addUser));
             Assert.Equal("家計簿の人数が上限に達しています。", ex.Message);
+        }
+
+        [Fact]
+        public void すでに家計簿に追加されているユーザは追加できないことを確認する()
+        {
+            var id = new AccountId(Guid.NewGuid());
+            var name = new AccountName("test");
+            var createUser = new UserId(Guid.NewGuid());
+            var member = new List<UserId>() {
+                createUser,
+                new UserId(Guid.NewGuid()),
+            };
+            var actual = Account.CreateFromRepository(id, name, createUser, member);
+
+            var ex = Assert.Throws<ArgumentException>(() => actual.AddMember(createUser));
+            Assert.Equal("すでに追加されているユーザです。", ex.Message);
         }
 
         [Fact]
