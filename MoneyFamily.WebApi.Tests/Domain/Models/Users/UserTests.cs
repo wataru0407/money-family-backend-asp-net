@@ -15,10 +15,10 @@ namespace MoneyFamily.WebApi.Tests.Domain.Models.Users
             var password = new Password("test1234");
             var actual = new User(id, name, email, password);
 
-            Assert.Equal(actual.Id, id);
-            Assert.Equal(actual.Name, name);
-            Assert.Equal(actual.Email, email);
-            Assert.Equal(actual.Password, password);
+            Assert.Equal(id, actual.Id);
+            Assert.Equal(name, actual.Name);
+            Assert.Equal(email, actual.Email);
+            Assert.Equal(password, actual.Password);
         }
 
         [Fact]

@@ -123,10 +123,11 @@ namespace MoneyFamily.WebApi.Application.Users
 
             if (command.Email is not null)
             {
+                var preEmail = user.Email;
                 var email = new EmailAddress(command.Email);
                 user.ChageEmail(email);
 
-                if (await userService.Exists(user)) throw new CustomDuplicateException($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}");
+                if (preEmail != user.Email && await userService.Exists(user)) throw new CustomDuplicateException($"同じメールアドレスのユーザがすでに存在しています。メールアドレス：{command.Email}");
             }
 
             if (command.Password is not null)
