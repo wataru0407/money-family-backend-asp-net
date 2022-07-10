@@ -73,12 +73,7 @@ namespace MoneyFamily.WebApi.Presentation.Controller
 
             try
             {
-                var command = new UserUpdateCommand(userId)
-                {
-                    Name = body.Name,
-                    Email = body.Email,
-                    Password = body.Password
-                };
+                var command = new UserUpdateCommand(userId, body.Name, body.Email, body.Password);
                 var result = await userApplicationService.Update(command);
                 var response = new UserResponse()
                 {
