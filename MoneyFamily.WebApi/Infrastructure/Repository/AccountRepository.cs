@@ -54,7 +54,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task<Account?> FindById(AccountId id)
         {
-            var accountDto = await moneyFamilyContext.Accounts.FirstOrDefaultAsync(x => x.AccountId.Equals(id.Value));
+            var accountDto = await moneyFamilyContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == id.Value);
             if (accountDto == null) return null;
 
             var relationDtos = await moneyFamilyContext.AccountUserRelations.Where(x => x.AccountId == id.Value).ToListAsync();

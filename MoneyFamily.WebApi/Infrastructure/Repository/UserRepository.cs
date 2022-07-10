@@ -18,7 +18,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task<User?> FindByEmail(EmailAddress email)
         {
-            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.EmailAddress.Equals(email.Value));
+            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.EmailAddress == email.Value);
             if (result == null) return null;
 
             return ToDomainModel(result);
@@ -26,7 +26,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
 
         public async Task<User?> FindById(UserId id)
         {
-            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.UserId.Equals(id.Value));
+            var result = await moneyFamilyContext.Users.FirstOrDefaultAsync(x => x.UserId == id.Value);
             if (result == null) return null;
 
             return ToDomainModel(result);
@@ -41,7 +41,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
         public async Task Update(User user)
         {
             var dto = ToDto(user);
-            var updateUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
+            var updateUser = await moneyFamilyContext.Users.SingleOrDefaultAsync(x => x.UserId == dto.UserId);
             updateUser.UserName = dto.UserName;
             updateUser.EmailAddress = dto.EmailAddress;
             updateUser.Password = dto.Password;
@@ -52,7 +52,7 @@ namespace MoneyFamily.WebApi.Infrastructure.Repository
         public async Task Delete(User user)
         {
             var dto = ToDto(user);
-            var deleteUser = await moneyFamilyContext.Users.FindAsync(dto.UserId);
+            var deleteUser = await moneyFamilyContext.Users.SingleOrDefaultAsync(x => x.UserId == dto.UserId);
             moneyFamilyContext.Remove(deleteUser);
 
             await moneyFamilyContext.SaveChangesAsync();
